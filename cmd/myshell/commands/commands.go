@@ -71,9 +71,17 @@ func (t *TypeCommand) Run() error {
 	var buildIns = []string{"exit", "echo", "type"}
 	if contains(buildIns, command) {
 		fmt.Printf("%s is a shell builtin\n", command)
-	} else {
-		fmt.Printf("%s not found\n", command)
+		return nil
 	}
 
+	paths := strings.Split(os.Getenv("PATH"), ":")
+	for _, path := range paths {
+		if _, err := os.Stat(fmt.Sprintf("%s/%s", path, command)); err == nil {
+			fmt.Printf("%s is %s/%s\n", command, path, command)
+			return nil
+		}
+	}
+
+	fmt.Printf("%s not found\n", command)
 	return nil
 }
