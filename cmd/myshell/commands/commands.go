@@ -54,3 +54,26 @@ func (e *EchoCommand) Run() error {
 	fmt.Println(echoString)
 	return nil
 }
+
+type TypeCommand struct {
+	args []string
+}
+
+func NewTypeCommand(args []string) *TypeCommand {
+	return &TypeCommand{
+		args: args,
+	}
+}
+
+func (t *TypeCommand) Run() error {
+	command := t.args[0]
+
+	var buildIns = []string{"exit", "echo", "type"}
+	if contains(buildIns, command) {
+		fmt.Printf("%s is a shell builtin\n", command)
+	} else {
+		fmt.Printf("%s not found\n", command)
+	}
+
+	return nil
+}
