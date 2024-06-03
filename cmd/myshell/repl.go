@@ -4,15 +4,17 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+
+	"github.com/codecrafters-io/shell-starter-go/cmd/myshell/commands"
 )
 
 type REPL struct {
-	handler *commandsHandler
+	handler *commands.CommandHandler
 }
 
 func NewREPL() *REPL {
 	return &REPL{
-		handler: newCommandsHandler(),
+		handler: commands.NewCommandsHandler(),
 	}
 }
 
@@ -25,7 +27,7 @@ func (r *REPL) Run() {
 			return
 		}
 
-		err = r.handler.handle(userInp)
+		err = r.handler.Handle(userInp)
 		if err != nil {
 			fmt.Println(err)
 		}
