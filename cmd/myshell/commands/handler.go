@@ -28,6 +28,8 @@ func (c *CommandHandler) makeCommand(inp string) Command {
 		return NewTypeCommand(args[1:])
 	case "pwd":
 		return NewPwdCommand()
+	case "cd":
+		return NewCdCommand(args[1:])
 	default:
 		return NewExternalCommand(args)
 	}

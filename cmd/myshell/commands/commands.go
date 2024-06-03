@@ -110,3 +110,25 @@ func (p *PwdCommand) Run() error {
 	fmt.Printf("%s\n", wd)
 	return nil
 }
+
+type CdCommand struct {
+	args []string
+}
+
+func NewCdCommand(args []string) *CdCommand {
+	return &CdCommand{
+		args: args,
+	}
+}
+
+func (c *CdCommand) Run() error {
+	if len(c.args) == 1 {
+		err := os.Chdir(c.args[0])
+		if err != nil {
+			return fmt.Errorf("%s: No such file or directory", c.args[0])
+		}
+	} else {
+		return os.Chdir(os.Getenv("HOME"))
+	}
+	return nil
+}
