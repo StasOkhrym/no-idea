@@ -3,6 +3,7 @@ package commands
 import (
 	"fmt"
 	"os"
+	"os/exec"
 	"strings"
 )
 
@@ -25,18 +26,26 @@ func (e *ExitCommand) Run() error {
 	return nil
 }
 
-type NotFoundCommand struct {
-	command string
+type ExternalCommand struct {
+	args []string
 }
 
-func NewNotFoundCommand(command string) *NotFoundCommand {
-	return &NotFoundCommand{
-		command: command,
+func NewExternalCommand(args []string) *ExternalCommand {
+	return &ExternalCommand{
+		args: args,
 	}
 }
 
-func (n *NotFoundCommand) Run() error {
-	return fmt.Errorf("%s: command not found", n.command)
+func (n *ExternalCommand) Run() error {
+	command := exec.Command(n.args[0], n.args[1:]...)
+	command.Stderr = os.Stderr
+	command.Stdout = os.Stdout
+
+	err := command.Run()
+	if err != nil {
+		fmt.Printf("%s: command not found\n", n.args[0])
+	}
+	return nil
 }
 
 type EchoCommand struct {

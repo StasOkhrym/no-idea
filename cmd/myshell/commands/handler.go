@@ -27,7 +27,7 @@ func (c *CommandHandler) makeCommand(inp string) Command {
 	case "type":
 		return NewTypeCommand(args[1:])
 	default:
-		return NewNotFoundCommand(args[0])
+		return NewExternalCommand(args)
 	}
 }
 
