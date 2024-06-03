@@ -11,10 +11,7 @@ func NewCommandsHandler() *CommandHandler {
 	return &CommandHandler{}
 }
 
-func (c *CommandHandler) makeCommand(inp string) Command {
-	inp = strings.TrimSpace(inp)
-	args := strings.Split(inp, " ")
-
+func (c *CommandHandler) makeCommand(args []string) Command {
 	switch args[0] {
 	case "exit":
 		exitCode, err := strconv.Atoi(args[1])
@@ -36,10 +33,9 @@ func (c *CommandHandler) makeCommand(inp string) Command {
 }
 
 func (c *CommandHandler) Handle(inp string) error {
-	command := c.makeCommand(inp)
-	return command.Run()
-}
+	inp = strings.TrimSpace(inp)
+	args := strings.Split(inp, " ")
 
-func (c *CommandHandler) cdCommand() error {
-	return nil
+	command := c.makeCommand(args)
+	return command.Run()
 }
