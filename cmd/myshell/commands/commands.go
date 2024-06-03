@@ -123,9 +123,14 @@ func NewCdCommand(args []string) *CdCommand {
 
 func (c *CdCommand) Run() error {
 	if len(c.args) == 1 {
-		err := os.Chdir(c.args[0])
-		if err != nil {
-			return fmt.Errorf("%s: No such file or directory", c.args[0])
+		switch c.args[0] {
+		case "~":
+			return os.Chdir(os.Getenv("HOME"))
+		default:
+			err := os.Chdir(c.args[0])
+			if err != nil {
+				return fmt.Errorf("%s: No such file or directory", c.args[0])
+			}
 		}
 	} else {
 		return os.Chdir(os.Getenv("HOME"))
