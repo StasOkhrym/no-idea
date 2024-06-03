@@ -77,7 +77,7 @@ func NewTypeCommand(args []string) *TypeCommand {
 func (t *TypeCommand) Run() error {
 	command := t.args[0]
 
-	var buildIns = []string{"exit", "echo", "type"}
+	var buildIns = []string{"exit", "echo", "type", "pwd"}
 	if contains(buildIns, command) {
 		fmt.Printf("%s is a shell builtin\n", command)
 		return nil
@@ -92,5 +92,21 @@ func (t *TypeCommand) Run() error {
 	}
 
 	fmt.Printf("%s not found\n", command)
+	return nil
+}
+
+type PwdCommand struct{}
+
+func NewPwdCommand() *PwdCommand {
+	return &PwdCommand{}
+}
+
+func (p *PwdCommand) Run() error {
+	wd, err := os.Getwd()
+	if err != nil {
+		return err
+	}
+
+	fmt.Printf("%s\n", wd)
 	return nil
 }

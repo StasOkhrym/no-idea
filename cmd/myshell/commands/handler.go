@@ -26,6 +26,8 @@ func (c *CommandHandler) makeCommand(inp string) Command {
 		return NewEchoCommand(args[1:])
 	case "type":
 		return NewTypeCommand(args[1:])
+	case "pwd":
+		return NewPwdCommand()
 	default:
 		return NewExternalCommand(args)
 	}
