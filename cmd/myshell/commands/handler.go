@@ -22,6 +22,8 @@ func (c *CommandHandler) makeCommand(inp string) Command {
 			exitCode = 1
 		}
 		return NewExitCommand(exitCode)
+	case "echo":
+		return NewEchoCommand(args[1:])
 	default:
 		return NewNotFoundCommand(args[0])
 	}

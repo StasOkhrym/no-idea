@@ -3,6 +3,7 @@ package commands
 import (
 	"fmt"
 	"os"
+	"strings"
 )
 
 type Command interface {
@@ -36,4 +37,20 @@ func NewNotFoundCommand(command string) *NotFoundCommand {
 
 func (n *NotFoundCommand) Run() error {
 	return fmt.Errorf("%s: command not found", n.command)
+}
+
+type EchoCommand struct {
+	args []string
+}
+
+func NewEchoCommand(args []string) *EchoCommand {
+	return &EchoCommand{
+		args: args,
+	}
+}
+
+func (e *EchoCommand) Run() error {
+	echoString := fmt.Sprintf("%s", strings.Join(e.args, " "))
+	fmt.Println(echoString)
+	return nil
 }
